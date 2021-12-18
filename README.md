@@ -1,2 +1,3 @@
-# shiny_template
- A template to setup a shiny app
+# Shiny App Template
+ 
+Defines the template for easy setup of Shiny apps.
