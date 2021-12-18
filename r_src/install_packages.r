@@ -9,13 +9,14 @@
 ## Install packages from CRAN ####
 ## `shiny` - Package for the shiny app
 ## `shinyWidgets` - Package for additional widgets for the app
-## `shinythemes` - Themes for the shiny app
+## `bslib` - Themes for the shiny app,
+## `thematic` - Automatic styling
 ## `plotly` - Package for interactive plotting
 ## `here` - Easy file referencing
 
 cran_packages <- c("shiny",
                    "shinyWidgets",
-                   "shinythemes",
+                   "bslib",
                    "plotly",
                    "here")
 if (length(missing_pkgs <- setdiff(cran_packages, rownames(installed.packages()))) > 0) {

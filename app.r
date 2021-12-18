@@ -14,8 +14,17 @@ library(shiny)
 library(shinyWidgets)
 
 
+## Themes ####
+dark_theme <- bslib::bs_theme(bootswatch = "cyborg")
+light_theme <- bslib::bs_theme(bootswatch = "simplex")
+thematic::thematic_shiny(font = "auto")
+
+
 ## Define the UI ####
 ui <- fluidPage(
+  
+  ## Set the theme
+  theme = dark_theme,
   
   ## Horizontal rule
   hr(),
@@ -24,28 +33,28 @@ ui <- fluidPage(
   fluidRow(
     
     ## App title
-    column(10,
+    column(width = 8,
            titlePanel(title = tail(strsplit(here::here(), split = "/")[[1]], n = 1))
     ),
     
     ## Dark mode toggle
-    column(2,
-           panel(
+    column(width = 1, 
+           offset = 3,
+           div(
+             style = "display: inline-block",
              materialSwitch(
                inputId = "dark_toggle",
                label = icon("moon"), 
                value = TRUE,
-               status = "default"
-             )
+               status = "default")
            )
     )
-    
   ),
   
   ## Horizontal rule
   hr(),
   
-  # theme = shinythemes::shinytheme("darkly"),
+  ## Main panel
   mainPanel(
     tabsetPanel(
       type = "tabs",
@@ -56,18 +65,27 @@ ui <- fluidPage(
         DT::DTOutput("table")
       )
     )
-    # checkboxInput(
-    #   inputId = "themeToggle",
-    #   label = icon("sun")
-    # )
   )
 )
 
 
 # Define server logic ####
-server <- function(input, output) {
+server <- function(input, output, session) {
+  
+  ## Test table
   output$table <- DT::renderDT({
     iris
+  })
+  
+  ## Dynamically set the theme
+  observeEvent(input$dark_toggle, {
+    session$setCurrentTheme(
+      if(input$dark_toggle){
+        dark_theme
+      } else{
+        light_theme
+      }
+    )
   })
 }
 
